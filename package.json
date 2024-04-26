@@ -1,0 +1,46 @@
+{
+  "name": "@ultraphx/js-sdk",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A simple SDK for interacting with the UltraPhoenix API",
+  "author": "wearzdk",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/UltraPhoenixGate/js-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltraPhoenixGate/js-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/UltraPhoenixGate/js-sdk/issues"
+  },
+  "keywords": [],
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint .",
+    "lint:fix": "pnpm run lint --fix",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.15.0",
+    "@types/node": "^20.12.7",
+    "bumpp": "^9.4.0",
+    "eslint": "^8.57.0",
+    "esno": "^4.7.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
