@@ -2,7 +2,7 @@ import WebSocket from 'isomorphic-ws'
 
 import type { HubClient, MessageCallback, Plugin } from './types'
 
-interface HubClientOptions {
+export interface HubClientOptions {
   wsUrl: string
 }
 
@@ -84,10 +84,24 @@ export function createHubClient(opt: HubClientOptions): HubClient {
       ws.send(JSON.stringify({ topic, payload }))
     },
 
-    use<T>(plugin: Plugin<T>) {
+    use(plugin: Plugin) {
       return Object.assign(this, plugin(this))
     },
   }
 
   return hubClient
+}
+
+export class ClientWithPlugins<T extends HubClient> {
+  constructor(private client: T) {}
+
+  use<U>(plugin: (client: T) => U): ClientWithPlugins<T & U> {
+    const pluginResult = plugin(this.client)
+    this.client = { ...this.client, ...pluginResult } as T & U
+    return this as unknown as ClientWithPlugins<T & U>
+  }
+
+  build() {
+    return this.client
+  }
 }

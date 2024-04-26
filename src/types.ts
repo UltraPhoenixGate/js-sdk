@@ -56,7 +56,7 @@ export interface HubClient {
    * @param plugin - The plugin function to apply.
    * @returns A new HubClient instance with the applied plugin.
    */
-  use: <T>(plugin: (client: this) => T) => HubClient & T
+  use: (plugin: Plugin) => this
 }
 
 export interface Message<T = any> {
@@ -71,4 +71,4 @@ export interface Message<T = any> {
  */
 export type MessageCallback<T = any> = (message: Message<T>) => void
 
-export type Plugin<T> = (client: HubClient) => T
+export type Plugin = (client: HubClient) => any
