@@ -34,9 +34,14 @@
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
   },
+  "dependencies": {
+    "isomorphic-ws": "^5.0.0",
+    "ws": "^8.16.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.15.0",
     "@types/node": "^20.12.7",
+    "@types/ws": "^8.5.10",
     "bumpp": "^9.4.0",
     "eslint": "^8.57.0",
     "esno": "^4.7.0",
