@@ -21,22 +21,6 @@ export function createBaseSdkClient(opt: BaseClientOptions): BaseClient {
       ws.setToken(t)
       http.setToken(t)
     },
-
-    get isReady() {
-      return ws.isReady
-    },
-    get status() {
-      return ws.status
-    },
-    onDisconnect(callback) {
-      ws.onDisconnect(callback)
-    },
-    onConnect(callback) {
-      ws.onConnect(callback)
-    },
-    onError(callback) {
-      ws.onError(callback)
-    },
     ws,
     http,
     on<T>(topic: string, callback: MessageCallback<T>) {
