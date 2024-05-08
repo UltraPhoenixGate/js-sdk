@@ -1,0 +1,69 @@
+import { HttpService } from './http'
+import type { BaseClient, MessageCallback, Plugin } from './types'
+import { WebSocketService } from './ws'
+
+export interface BaseClientOptions {
+  baseUrl: string
+  token?: string
+}
+
+export interface BaseClientOptions {
+  baseUrl: string
+  token?: string
+}
+
+export function createBaseSdkClient(opt: BaseClientOptions): BaseClient {
+  const ws = new WebSocketService(opt)
+  const http = new HttpService(opt)
+
+  const hubClient: BaseClient = {
+    setToken(t: string) {
+      ws.setToken(t)
+      http.setToken(t)
+    },
+
+    get isReady() {
+      return ws.isReady
+    },
+    get status() {
+      return ws.status
+    },
+    onDisconnect(callback) {
+      ws.onDisconnect(callback)
+    },
+    onConnect(callback) {
+      ws.onConnect(callback)
+    },
+    onError(callback) {
+      ws.onError(callback)
+    },
+    ws,
+    http,
+    on<T>(topic: string, callback: MessageCallback<T>) {
+      ws.on(topic, callback)
+    },
+    send<T>(topic: string, payload: T) {
+      ws.send(topic, payload)
+    },
+
+    use(plugin: Plugin) {
+      return Object.assign(this, plugin(this))
+    },
+  }
+
+  return hubClient
+}
+
+export class ClientWithPlugins<T extends BaseClient> {
+  constructor(private client: T) {}
+
+  use<U>(plugin: (client: T) => U): ClientWithPlugins<T & U> {
+    const pluginResult = plugin(this.client)
+    this.client = { ...this.client, ...pluginResult } as T & U
+    return this as unknown as ClientWithPlugins<T & U>
+  }
+
+  build() {
+    return this.client
+  }
+}

@@ -1,9 +1,11 @@
 import type WebSocket from 'ws'
+import type { WebSocketService } from './ws'
+import type { HttpService } from './http'
 
 /**
  * Represents a HubClient.
  */
-export interface HubClient {
+export interface BaseClient {
   /**
    * Indicates whether the HubClient is ready.
    */
@@ -13,6 +15,8 @@ export interface HubClient {
    * The status of the HubClient.
    */
   status: 'connecting' | 'connected' | 'closed' | 'error'
+
+  setToken: (token: string) => void
 
   /**
    * Registers a callback function to be called when the HubClient is disconnected.
@@ -35,7 +39,9 @@ export interface HubClient {
   /**
    * The WebSocket instance used by the HubClient.
    */
-  ws: WebSocket
+  ws: WebSocketService
+
+  http: HttpService
 
   /**
    * Registers a callback function to be called when a message is received on the specified topic.
@@ -71,4 +77,10 @@ export interface Message<T = any> {
  */
 export type MessageCallback<T = any> = (message: Message<T>) => void
 
-export type Plugin = (client: HubClient) => any
+export type Plugin = (client: BaseClient) => any
+
+export interface BaseModel {
+  id: string
+  createdAt: string
+  updatedAt: string
+}

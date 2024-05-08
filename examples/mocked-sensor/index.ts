@@ -1,11 +1,11 @@
 import { createSdkClient } from '@ultraphx/js-sdk'
 
 const ctx = createSdkClient({
-  wsUrl: '',
+  baseUrl: '',
 })
 
-ctx.onData('#', (data) => {
-  console.log(data)
+ctx.data.onData('sensor', (msg) => {
+  console.log('Received data from sensor:', msg)
 })
 
-ctx.sendAlert('error', 'error message')
+ctx.alert.sendAlert('info', 'Hello from mocked sensor')

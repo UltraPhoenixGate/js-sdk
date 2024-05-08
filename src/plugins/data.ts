@@ -1,4 +1,4 @@
-import type { HubClient, MessageCallback } from '../types'
+import type { BaseClient, MessageCallback } from '../types'
 
 export interface DataPayload<T = any> {
   sender: string
@@ -7,8 +7,8 @@ export interface DataPayload<T = any> {
 
 export type DataCallback<T = any> = MessageCallback<DataPayload<T>>
 
-export function dataPlugin(client: HubClient) {
-  return {
+export function dataPlugin(client: BaseClient) {
+  const data = {
     onData<T>(sender: string, callback: DataCallback<T>) {
       client.on<DataPayload<T>>(`data::${sender}`, callback)
     },
@@ -16,4 +16,6 @@ export function dataPlugin(client: HubClient) {
       client.send<DataPayload<T>>(`data::${sender}`, { sender, data })
     },
   }
+
+  return { data }
 }
