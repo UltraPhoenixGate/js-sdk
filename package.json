@@ -1,5 +1,5 @@
 {
-  "name": "@ultraphx/js-sdk",
+  "name": "ultraphx-js-sdk",
   "type": "module",
   "version": "0.1.2",
   "packageManager": "pnpm@9.1.0",
@@ -26,7 +26,8 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "tsup",
