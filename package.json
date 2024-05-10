@@ -1,8 +1,8 @@
 {
   "name": "@ultraphx/js-sdk",
   "type": "module",
-  "version": "1.0.0",
-  "description": "A simple SDK for interacting with the UltraPhoenix API",
+  "version": "0.1.0",
+  "description": "A client SDK for interacting with the UltraPhoenix API",
   "author": "wearzdk",
   "license": "Apache-2.0",
   "homepage": "https://github.com/UltraPhoenixGate/js-sdk#readme",
@@ -31,7 +31,7 @@
     "build": "tsup",
     "lint": "eslint .",
     "lint:fix": "pnpm run lint --fix",
-    "release": "bumpp && pnpm publish",
+    "release": "bumpp",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
