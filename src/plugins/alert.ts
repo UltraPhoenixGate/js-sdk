@@ -18,23 +18,23 @@ export function alertPlugin(client: BaseClient) {
       client.send<AlertPayload>(`alert::${level}`, { level, text })
     },
     getAlertRules() {
-      return client.http.get<AlertRule[]>('/alert/rules')
+      return client.http.get<AlertRule[]>('/auth/alert/rules')
     },
     getAlertRecords(params: {
-      clientID: string
-      startAt: Date | string
-      endAt: Date | string
+      clientID?: string
+      startAt?: Date | string
+      endAt?: Date | string
     }) {
-      return client.http.get<AlertRecord[]>('/alert/records', params)
+      return client.http.get<AlertRecord[]>('/auth/alert/records', params)
     },
     createAlertRule(rule: AlertRule) {
-      return client.http.post<AlertRule>('/alert/rules', rule)
+      return client.http.post<AlertRule>('/auth/alert/rules', rule)
     },
     updateAlertRule(rule: AlertRule) {
-      return client.http.put<AlertRule>(`/alert/rules/${rule.name}`, rule)
+      return client.http.put<AlertRule>(`/auth/alert/rules/${rule.name}`, rule)
     },
     deleteAlertRule(name: string) {
-      return client.http.delete(`/alert/rules/${name}`)
+      return client.http.delete(`/auth/alert/rules/${name}`)
     },
   }
 

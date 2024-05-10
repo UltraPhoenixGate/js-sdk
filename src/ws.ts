@@ -9,7 +9,7 @@ export class WebSocketService {
   private onConnectError: (error: WebSocket.ErrorEvent) => void = () => {}
 
   constructor(private opt: BaseClientOptions) {
-    this.ws = new WebSocket(opt.baseUrl, {
+    this.ws = new WebSocket(`${opt.baseUrl}/ws`, {
       headers: {
         Authorization: `Bearer ${opt.token || ''}`,
       },
@@ -46,7 +46,7 @@ export class WebSocketService {
   private topics = new Map<string, MessageCallback[]>()
 
   private reconnect() {
-    this.ws = new WebSocket(this.opt.baseUrl, {
+    this.ws = new WebSocket(`${this.opt.baseUrl}/ws`, {
       headers: {
         Authorization: `Bearer ${this.opt.token || ''}`,
       },

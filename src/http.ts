@@ -10,7 +10,7 @@ export class HttpService {
   private token: string
 
   constructor(opt: BaseClientOptions) {
-    this.baseUrl = opt.baseUrl
+    this.baseUrl = `${opt.baseUrl}`
     this.token = opt.token || ''
   }
 
