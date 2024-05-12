@@ -3,15 +3,20 @@ import type { BaseClientOptions } from './sdk'
 import type { MessageCallback } from './types'
 
 export class WebSocketService {
-  private ws: WebSocket
+  private ws: WebSocket | null = null
   private connectHandler: () => void = () => {}
   private disconnectHandler: () => void = () => {}
   private onConnectError: (error: WebSocket.ErrorEvent) => void = () => {}
 
   constructor(private opt: BaseClientOptions) {
-    this.ws = new WebSocket(`${opt.baseUrl}/ws`, {
+  }
+
+  private topics = new Map<string, MessageCallback[]>()
+
+  private reconnect() {
+    this.ws = new WebSocket(`${this.opt.baseUrl}/auth/ws`, {
       headers: {
-        Authorization: `Bearer ${opt.token || ''}`,
+        Authorization: `Bearer ${this.opt.token || ''}`,
       },
     })
 
@@ -43,16 +48,6 @@ export class WebSocketService {
     }
   }
 
-  private topics = new Map<string, MessageCallback[]>()
-
-  private reconnect() {
-    this.ws = new WebSocket(`${this.opt.baseUrl}/ws`, {
-      headers: {
-        Authorization: `Bearer ${this.opt.token || ''}`,
-      },
-    })
-  }
-
   on<T>(topic: string, callback: MessageCallback<T>) {
     const callbacks = this.topics.get(topic) || []
     callbacks.push(callback)
@@ -60,6 +55,9 @@ export class WebSocketService {
   }
 
   send<T>(topic: string, payload: T) {
+    if (!this.ws)
+      throw new Error('WebSocket connection is not established')
+
     if (this.ws.readyState !== this.ws.OPEN)
       throw new Error('WebSocket connection is not established')
 
@@ -77,10 +75,15 @@ export class WebSocketService {
   }
 
   get isReady() {
+    if (!this.ws)
+      return false
     return this.ws.readyState === this.ws.OPEN
   }
 
   get status() {
+    if (!this.ws)
+      return 'error'
+
     switch (this.ws.readyState) {
       case this.ws.CONNECTING:
         return 'connecting'

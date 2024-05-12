@@ -8,10 +8,12 @@ export interface R<T> {
 export class HttpService {
   private baseUrl: string
   private token: string
+  private debug: boolean
 
   constructor(opt: BaseClientOptions) {
     this.baseUrl = `${opt.baseUrl}`
     this.token = opt.token || ''
+    this.debug = opt.debug || false
   }
 
   setToken(token: string) {
@@ -28,6 +30,7 @@ export class HttpService {
       headers.set('Content-Type', 'application/json')
 
     const url = new URL(this.baseUrl + path)
+    this.debug && console.log(`🚀 [HTTP] ${method} ${url.toString()}`)
     let body
 
     if (method === 'GET' || method === 'DELETE') {

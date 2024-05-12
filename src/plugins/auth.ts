@@ -1,4 +1,4 @@
-import type { BaseClient } from '../types'
+import type { BaseClient, ClientType } from '@/types'
 
 export function authPlugin(client: BaseClient) {
   const auth = {
@@ -8,10 +8,11 @@ export function authPlugin(client: BaseClient) {
     async registerSync(params: {
       name: string
       description: string
+      type: ClientType
     }) {
       const res = await client.http.post<{
         token: string
-      }>('/plugin/register_sync', { ...params })
+      }>('/plugin/register', { ...params })
 
       if (res.error)
         throw new Error(res.error)
@@ -37,11 +38,15 @@ export function authPlugin(client: BaseClient) {
 
         if (status.data?.status === 'disabled')
           throw new Error('Token disabled')
+
+        // wait for 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000))
       }
     },
     async register(params: {
       name: string
       description: string
+      type: ClientType
     }) {
       const token = await this.registerSync(params)
       await this.waitUntilActive()

@@ -5,6 +5,7 @@ import { WebSocketService } from './ws'
 export interface BaseClientOptions {
   baseUrl: string
   token?: string
+  debug?: boolean
 }
 
 export interface BaseClientOptions {
