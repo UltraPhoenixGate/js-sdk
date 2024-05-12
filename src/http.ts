@@ -18,62 +18,56 @@ export class HttpService {
     this.token = token
   }
 
-  async get<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
-    for (const key in data) {
-      if (data[key] === undefined)
-        delete data[key]
+  private async request<T>(method: string, path: string, data?: any, opt?: RequestInit): Promise<R<T>> {
+    const headers = new Headers({
+      Authorization: `Bearer ${this.token}`,
+      ...opt?.headers,
+    })
 
-      // date to string
-      if (data[key] instanceof Date)
-        data[key] = data[key].toISOString()
+    if (['POST', 'PUT'].includes(method))
+      headers.set('Content-Type', 'application/json')
+
+    const url = new URL(this.baseUrl + path)
+    let body
+
+    if (method === 'GET' || method === 'DELETE') {
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          if (data[key] === undefined)
+            delete data[key]
+          else if (data[key] instanceof Date)
+            data[key] = data[key].toISOString()
+        })
+        url.search = new URLSearchParams(data).toString()
+      }
     }
-    const url = new URL(`${this.baseUrl + path}?${new URLSearchParams(data).toString()}`)
+    else {
+      body = JSON.stringify(data)
+    }
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
+    const response = await fetch(url.toString(), {
+      method,
+      headers,
+      body,
       ...opt,
     })
+
     return response.json() as Promise<R<T>>
   }
 
-  async post<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
-    const response = await fetch(this.baseUrl + path, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      ...opt,
-    })
-    return response.json() as Promise<R<T>>
+  get<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
+    return this.request<T>('GET', path, data, opt)
   }
 
-  async put<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
-    const response = await fetch(this.baseUrl + path, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${this.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      ...opt,
-    })
-    return response.json() as Promise<R<T>>
+  post<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
+    return this.request<T>('POST', path, data, opt)
   }
 
-  async delete<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
-    const url = new URL(`${this.baseUrl + path}?${new URLSearchParams(data).toString()}`)
+  put<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
+    return this.request<T>('PUT', path, data, opt)
+  }
 
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-      ...opt,
-    })
-    return response.json() as Promise<R<T>>
+  delete<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
+    return this.request<T>('DELETE', path, data, opt)
   }
 }
