@@ -1,5 +1,8 @@
-import type { WebSocketService } from './ws'
-import type { HttpService } from './http'
+import type { WebSocketService } from '@/ws'
+import type { HttpService } from '@/http'
+
+export * from './client'
+export * from './alert'
 
 /**
  * Represents a HubClient.
@@ -46,9 +49,3 @@ export interface Message<T = any> {
 export type MessageCallback<T = any> = (message: Message<T>) => void
 
 export type Plugin = (client: BaseClient) => any
-
-export interface BaseModel {
-  id: string
-  createdAt: string
-  updatedAt: string
-}
