@@ -42,7 +42,7 @@ importers:
 
   examples/mocked-sensor:
     dependencies:
-      '@ultraphx/js-sdk':
+      ultraphx-js-sdk:
         specifier: workspace:*
         version: link:../..
 

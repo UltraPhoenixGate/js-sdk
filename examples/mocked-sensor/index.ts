@@ -1,4 +1,4 @@
-import { createSdkClient } from '@ultraphx/js-sdk'
+import { createSdkClient } from 'ultraphx-js-sdk'
 
 const ctx = createSdkClient({
   baseUrl: '',
@@ -10,6 +10,6 @@ ctx.auth.register({
   description: 'Mocked sensor',
 })
 
-ctx.data.onData('sensor', (msg) => {
-  console.log('Received data from sensor:', msg)
+ctx.data.onData('sensor1', (msg) => {
+  console.log('Received data from sensor1:', msg)
 })

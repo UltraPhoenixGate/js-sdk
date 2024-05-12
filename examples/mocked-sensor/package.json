@@ -11,6 +11,6 @@
     "dev": "esno ./index.ts"
   },
   "dependencies": {
-    "@ultraphx/js-sdk": "workspace:*"
+    "ultraphx-js-sdk": "workspace:*"
   }
 }

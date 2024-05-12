@@ -20,6 +20,7 @@ export function authPlugin(client: BaseClient) {
         throw new Error('Invalid token')
 
       this.setToken(res.data.token)
+      return res.data.token
     },
     async waitUntilActive() {
       // check until the auth is ready
@@ -42,8 +43,9 @@ export function authPlugin(client: BaseClient) {
       name: string
       description: string
     }) {
-      await this.registerSync(params)
+      const token = await this.registerSync(params)
       await this.waitUntilActive()
+      return token
     },
   }
 
