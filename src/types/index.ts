@@ -15,20 +15,6 @@ export interface BaseClient {
   ws: WebSocketService
   http: HttpService
   /**
-   * Registers a callback function to be called when a message is received on the specified topic.
-   * @param topic - The topic to listen for.
-   * @param callback - The callback function to be called.
-   */
-  on: <T>(topic: string, callback: MessageCallback<T>) => void
-
-  /**
-   * Sends a message with the specified payload on the specified topic.
-   * @param topic - The topic to send the message to.
-   * @param payload - The payload of the message.
-   */
-  send: <T>(topic: string, payload: T) => void
-
-  /**
    * Applies a plugin to the HubClient.
    * @param plugin - The plugin function to apply.
    * @returns A new HubClient instance with the applied plugin.

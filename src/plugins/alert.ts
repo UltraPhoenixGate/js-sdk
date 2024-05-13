@@ -12,10 +12,10 @@ export type AlertCallback = MessageCallback<AlertPayload>
 export function alertPlugin(client: BaseClient) {
   const alert = {
     onAlert(level: AlertLevel, callback: AlertCallback) {
-      client.on<AlertPayload>(`alert::${level}`, callback)
+      client.ws.on<AlertPayload>(`alert::${level}`, callback)
     },
     sendAlert(level: AlertLevel, text: string) {
-      client.send<AlertPayload>(`alert::${level}`, { level, text })
+      return client.ws.send<AlertPayload>(`alert::${level}`, { level, text })
     },
     getAlertRules() {
       return client.http.get<AlertRule[]>('/auth/alert/rules')

@@ -7,14 +7,17 @@ export class WebSocketService {
   private connectHandler: () => void = () => {}
   private disconnectHandler: () => void = () => {}
   private onConnectError: (error: WebSocket.ErrorEvent) => void = () => {}
+  private debug = false
 
   constructor(private opt: BaseClientOptions) {
+    this.reconnect()
+    this.debug = opt.debug || false
   }
 
   private topics = new Map<string, MessageCallback[]>()
 
   private reconnect() {
-    this.ws = new WebSocket(`${this.opt.baseUrl}/auth/ws`, {
+    this.ws = new WebSocket(`${this.opt.baseUrl}/ws`, {
       headers: {
         Authorization: `Bearer ${this.opt.token || ''}`,
       },
@@ -61,8 +64,18 @@ export class WebSocketService {
     if (this.ws.readyState !== this.ws.OPEN)
       throw new Error('WebSocket connection is not established')
 
-    console.log('send', topic, payload)
-    this.ws.send(JSON.stringify({ topic, payload }))
+    return new Promise<void>((resolve, reject) => {
+      this.ws?.send(JSON.stringify({ topic, payload }), (err) => {
+        if (err) {
+          this.debug && console.error('🚀 [WS] send error', err)
+          reject(err)
+        }
+        else {
+          this.debug && console.log('🚀 [WS] send', topic, payload)
+          resolve()
+        }
+      })
+    })
   }
 
   setToken(t: string) {

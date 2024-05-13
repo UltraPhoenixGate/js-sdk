@@ -1,5 +1,5 @@
 import { HttpService } from './http'
-import type { BaseClient, MessageCallback, Plugin } from './types'
+import type { BaseClient, Plugin } from './types'
 import { WebSocketService } from './ws'
 
 export interface BaseClientOptions {
@@ -24,13 +24,6 @@ export function createBaseSdkClient(opt: BaseClientOptions): BaseClient {
     },
     ws,
     http,
-    on<T>(topic: string, callback: MessageCallback<T>) {
-      ws.on(topic, callback)
-    },
-    send<T>(topic: string, payload: T) {
-      ws.send(topic, payload)
-    },
-
     use(plugin: Plugin) {
       return Object.assign(this, plugin(this))
     },

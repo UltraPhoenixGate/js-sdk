@@ -7,7 +7,15 @@ const ctx = createSdkClient({
 })
 
 async function main() {
-  // ctx.data.sendData()
+  ctx.ws.onConnect(async () => {
+    while (true) {
+      await ctx.data.sendData({
+        temperature: 25,
+        humidity: 50,
+      })
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+  })
 }
 
 main()

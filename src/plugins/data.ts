@@ -10,10 +10,10 @@ export type DataCallback<T = any> = MessageCallback<DataPayload<T>>
 export function dataPlugin(client: BaseClient) {
   const data = {
     onData<T>(sender: string, callback: DataCallback<T>) {
-      client.on<DataPayload<T>>(`data::${sender}`, callback)
+      client.ws.on<DataPayload<T>>(`data::${sender}`, callback)
     },
-    sendData<T>(sender: string, data: T) {
-      client.send<DataPayload<T>>(`data::${sender}`, { sender, data })
+    sendData<T>(data: T) {
+      return client.ws.send<DataPayload<T>>(`data`, { sender: '', data })
     },
   }
 
