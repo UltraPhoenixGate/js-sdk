@@ -1,12 +1,12 @@
-import type { BaseClient } from '@/types'
+import type { BaseClient, Client } from '@/types'
 
 export function clientPlugin(_client: BaseClient) {
   const client = {
     getConnectedClients() {
-      return []
+      return _client.http.get<Client[]>('/client/connected')
     },
     getPendingClients() {
-      return []
+      return _client.http.get<Client[]>('/client/pending')
     },
   }
 

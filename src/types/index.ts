@@ -3,6 +3,7 @@ import type { HttpService } from '@/http'
 
 export * from './client'
 export * from './alert'
+export * from './shared'
 
 /**
  * Represents a HubClient.

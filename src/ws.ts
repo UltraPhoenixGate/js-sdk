@@ -17,7 +17,7 @@ export class WebSocketService {
   private topics = new Map<string, MessageCallback[]>()
 
   private reconnect() {
-    this.ws = new WebSocket(`${this.opt.baseUrl}/ws`, {
+    this.ws = new WebSocket(`${this.opt.baseUrl}/auth/ws`, {
       headers: {
         Authorization: `Bearer ${this.opt.token || ''}`,
       },
