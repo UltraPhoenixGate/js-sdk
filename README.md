@@ -23,28 +23,33 @@ const ctx = createSdkClient({
 
 // 若无token，则需要先进行注册
 const token = await ctx.auth.register({
-  name: 'sensor',
-  description: 'Mocked sensor',
+  name: '云平台',
+  description: '云平台',
+  type: 'plugin'
 })
 
 // 设置访问令牌
 ctx.setToken(token)
 
 // 设置token后，才可以访问相关api
+ctx.ws.onConnect(async () => {
+  while (true) {
+    // 模拟发送数据
+    await ctx.data.sendData({
+      temperature: 25,
+      humidity: 50,
+    })
+    await new Promise(resolve => setTimeout(resolve, 1000))
+  }
+})
 
-// 获取已连接的设备
-const clients = await ctx.client.getConnectedClients()
+// 获取已连接的客户端
+const clientsRes = await ctx.client.getConnectedClients()
+console.log(clientsRes.data)
 
 // 获取警报记录
-const alerts = await ctx.alert.getAlertRecords({})
-
-// 监听警报事件
-ctx.alert.onAlert('warning', (msg) => {
-  console.log('Received alert:', msg)
-})
-
-// 监听传感器数据事件
-ctx.data.onData('sensor1', (msg) => {
-  console.log('Received data from sensor1:', msg)
-})
+const {
+  data: alerts,
+} = await ctx.alert.getAlertRecords({})
+console.log(alerts)
 ```
