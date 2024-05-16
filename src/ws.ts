@@ -4,12 +4,14 @@ import type { MessageCallback } from './types'
 
 export class WebSocketService {
   private ws: WebSocket | null = null
+  private baseUrl: string
   private connectHandler: () => void = () => {}
   private disconnectHandler: () => void = () => {}
   private onConnectError: (error: WebSocket.ErrorEvent) => void = () => {}
   private debug = false
 
   constructor(private opt: BaseClientOptions) {
+    this.baseUrl = opt.baseUrl.replace(/^http/, 'ws')
     this.reconnect()
     this.debug = opt.debug || false
   }
@@ -17,7 +19,8 @@ export class WebSocketService {
   private topics = new Map<string, MessageCallback[]>()
 
   private reconnect() {
-    this.ws = new WebSocket(`${this.opt.baseUrl}/auth/ws`, {
+    this.debug && console.log('Connecting to WebSocket...', this.baseUrl)
+    this.ws = new WebSocket(`${this.baseUrl}/auth/ws`, {
       headers: {
         Authorization: `Bearer ${this.opt.token || ''}`,
       },
