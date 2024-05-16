@@ -20,11 +20,7 @@ export class WebSocketService {
 
   private reconnect() {
     this.debug && console.log('Connecting to WebSocket...', this.baseUrl)
-    this.ws = new WebSocket(`${this.baseUrl}/auth/ws`, {
-      headers: {
-        Authorization: `Bearer ${this.opt.token || ''}`,
-      },
-    })
+    this.ws = new WebSocket(`${this.baseUrl}/auth/ws?token=${this.opt.token || ''}`)
 
     this.ws.onopen = () => {
       console.log('WebSocket connection established')
