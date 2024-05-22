@@ -18,9 +18,7 @@ function ConnectedClients() {
 
   useEffect(() => {
     ctx.client.getConnectedClients().then((res) => {
-      if (res.error || !res.data)
-        throw new Error(res.error || 'Invalid data')
-      setClients(res.data)
+      setClients(res)
       setLoading(false)
     })
   }, [])

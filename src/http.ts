@@ -20,7 +20,7 @@ export class HttpService {
     this.token = token
   }
 
-  private async request<T>(method: string, path: string, data?: any, opt?: RequestInit): Promise<R<T>> {
+  private async request<T>(method: string, path: string, data?: any, opt?: RequestInit): Promise<T> {
     const headers = new Headers({
       Authorization: `Bearer ${this.token}`,
       ...opt?.headers,
@@ -55,22 +55,26 @@ export class HttpService {
       ...opt,
     })
 
-    return response.json() as Promise<R<T>>
+    const res = await response.json() as R<T>
+    if (res.error)
+      throw new Error(res.error)
+
+    return res.data as T
   }
 
-  get<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
+  get<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<T> {
     return this.request<T>('GET', path, data, opt)
   }
 
-  post<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
+  post<T>(path: string, data: any, opt?: RequestInit): Promise<T> {
     return this.request<T>('POST', path, data, opt)
   }
 
-  put<T>(path: string, data: any, opt?: RequestInit): Promise<R<T>> {
+  put<T>(path: string, data: any, opt?: RequestInit): Promise<T> {
     return this.request<T>('PUT', path, data, opt)
   }
 
-  delete<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<R<T>> {
+  delete<T>(path: string, data?: Record<string, any>, opt?: RequestInit): Promise<T> {
     return this.request<T>('DELETE', path, data, opt)
   }
 }

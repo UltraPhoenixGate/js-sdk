@@ -14,29 +14,23 @@ export function authPlugin(client: BaseClient) {
         token: string
       }>('/plugin/register', { ...params })
 
-      if (res.error)
-        throw new Error(res.error)
-
-      if (!res.data?.token)
-        throw new Error('Invalid token')
-
-      this.setToken(res.data.token)
-      return res.data.token
+      this.setToken(res.token)
+      return res.token
     },
     async waitUntilActive() {
       // check until the auth is ready
       while (true) {
-        const status = await client.http.get<{
+        const res = await client.http.get<{
           active: boolean
           status: 'pending' | 'active' | 'expired' | 'disabled'
         }>('/plugin/check_active')
-        if (status.data?.active)
+        if (res.active)
           break
 
-        if (status.data?.status === 'expired')
+        if (res.status === 'expired')
           throw new Error('Token expired')
 
-        if (status.data?.status === 'disabled')
+        if (res.status === 'disabled')
           throw new Error('Token disabled')
 
         // wait for 1 second

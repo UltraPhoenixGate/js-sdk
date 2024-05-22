@@ -20,12 +20,10 @@ async function main() {
 
   // 获取已连接的客户端
   const clientsRes = await ctx.client.getConnectedClients()
-  console.log(clientsRes.data)
+  console.log(clientsRes)
 
   // 获取警报记录
-  const {
-    data: alerts,
-  } = await ctx.alert.getAlertRecords({})
+  const alerts = await ctx.alert.getAlertRecords({})
   console.log(alerts)
 }
 
