@@ -44,12 +44,10 @@ ctx.ws.onConnect(async () => {
 })
 
 // 获取已连接的客户端
-const clientsRes = await ctx.client.getConnectedClients()
-console.log(clientsRes.data)
+const clients = await ctx.client.getConnectedClients()
+console.log(clients)
 
 // 获取警报记录
-const {
-  data: alerts,
-} = await ctx.alert.getAlertRecords({})
+const alerts = await ctx.alert.getAlertRecords({})
 console.log(alerts)
 ```
