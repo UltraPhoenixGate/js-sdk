@@ -6,7 +6,7 @@ export interface R<T> {
 }
 
 export class HttpService {
-  private baseUrl: string
+  public baseUrl: string
   private token: string
   private debug: boolean
 
