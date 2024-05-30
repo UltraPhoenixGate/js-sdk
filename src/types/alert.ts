@@ -1,3 +1,4 @@
+import type { Client } from './client'
 import type { BaseModel } from './shared'
 
 export type AlertType = 'warning' | 'error'
@@ -15,6 +16,7 @@ export interface AlertRecord extends BaseModel {
   clientID: string
   ruleName: string
   level: AlertType
+  client: Client
 }
 
 // AlertRule interface
