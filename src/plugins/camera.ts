@@ -27,25 +27,25 @@ export class CameraService {
   }
 
   async getCameras() {
-    const res = await this.client.http.get<{ cameras: Camera[] }>('/cameras')
+    const res = await this.client.http.get<{ cameras: Camera[] }>('/auth/cameras')
     return res
   }
 
   async addCamera(params: AddCameraParams) {
-    const res = await this.client.http.post<{ camera: Camera }>('/camera', { ...params })
+    const res = await this.client.http.post<{ camera: Camera }>('/auth/camera', { ...params })
     return res
   }
 
   async deleteCamera(id: string) {
-    await this.client.http.delete('/camera', { id })
+    await this.client.http.delete('/auth/camera', { id })
   }
 
   async updateCamera(params: Camera) {
-    await this.client.http.put('/camera', { params })
+    await this.client.http.put('/auth/camera', { params })
   }
 
   async getCurrentFrame(streamUrl: string) {
-    const res = await this.client.http.get<{ image: string }>('/camera/capture', { streamUrl })
+    const res = await this.client.http.get<{ image: string }>('/auth/camera/capture', { streamUrl })
     return res
   }
 
@@ -54,12 +54,12 @@ export class CameraService {
       Object.entries(params).map(([key, value]) => [key, value.toString()]),
     )
     return {
-      url: `${this.client.http.baseUrl}/camera/stream?${new URLSearchParams(paramsQueryObj).toString()}`,
+      url: `${this.client.http.baseUrl}/auth/camera/stream?${new URLSearchParams(paramsQueryObj).toString()}`,
     }
   }
 
   async scanOnvifDevices() {
-    const res = await this.client.http.get<{ devices: OnvifDevice[] }>('/camera/onvif/scan')
+    const res = await this.client.http.get<{ devices: OnvifDevice[] }>('/auth/camera/onvif/scan')
     return res
   }
 
@@ -70,7 +70,7 @@ export class CameraService {
         Model: string
       }
       streamUrl: string
-    }>('/camera/onvif/info', params)
+    }>('/auth/camera/onvif/info', params)
     return res
   }
 }
