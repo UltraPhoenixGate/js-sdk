@@ -1,15 +1,15 @@
 import type { Client } from './client'
 import type { BaseModel } from './shared'
 
-export type AlertType = 'warning' | 'error'
+export type AlertType = 'warning' | 'error' | string
 
-export type AlertRuleType = 'realtime' | 'static'
+export type AlertRuleType = 'realtime' | 'static' | string
 
-export type AlertRuleConditionType = 'operator' | 'event'
+export type AlertRuleConditionType = 'operator' | 'event' | string
 
-export type AlertRuleConditionOperator = 'eq' | 'ne' | 'gt' | 'lt'
+export type AlertRuleConditionOperator = 'eq' | 'ne' | 'gt' | 'lt' | string
 
-export type AlertActionType = 'email' | 'sms' | 'webhook'
+export type AlertActionType = 'email' | 'sms' | 'webhook' | string
 
 // AlertRecord interface
 export interface AlertRecord extends BaseModel {

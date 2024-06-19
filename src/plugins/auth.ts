@@ -22,7 +22,7 @@ export function authPlugin(client: BaseClient) {
       while (true) {
         const res = await client.http.get<{
           active: boolean
-          status: 'pending' | 'active' | 'expired' | 'disabled'
+          status: 'pending' | 'active' | 'expired' | 'disabled' | string
         }>('/plugin/check_active')
         if (res.active)
           break
