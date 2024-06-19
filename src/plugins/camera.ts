@@ -4,6 +4,14 @@ import type { Camera, OnvifDevice } from '@/types/camera'
 export interface AddCameraParams {
   name: string
   description: string
+  streamUrl: string
+  xAddr?: string
+  protocol?: 'rtsp' | 'http' | string
+  enabled?: boolean
+  manufacturer?: string
+  cameraModel?: string
+  IsOnvif?: boolean
+  extra?: string
 }
 
 export interface OpenStreamParams {
