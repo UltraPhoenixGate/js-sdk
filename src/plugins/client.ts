@@ -37,7 +37,7 @@ export function clientPlugin(_client: BaseClient) {
      * @param clientID
      */
     removeClient(clientID: string) {
-      return _client.http.delete('/auth/client/remove_client', { clientID })
+      return _client.http.post('/auth/client/remove_client', { clientID })
     },
   }
 
