@@ -1,4 +1,4 @@
-import type { BaseClient, Client } from '@/types'
+import type { BaseClient, Client, ClientStatus } from '@/types'
 
 export interface AddActiveSensorParams {
   name: string
@@ -23,6 +23,21 @@ export function clientPlugin(_client: BaseClient) {
     },
     addActiveSensor(params: AddActiveSensorParams) {
       return _client.http.post<Client>('/auth/client/add_active_sensor', params)
+    },
+    /**
+     * 设置客户端状态
+     * @param clientID
+     * @param status
+     */
+    setClientStatus(clientID: string, status: ClientStatus) {
+      return _client.http.post('/auth/client/set_client_status', { clientID, status })
+    },
+    /**
+     * 删除客户端
+     * @param clientID
+     */
+    removeClient(clientID: string) {
+      return _client.http.delete('/auth/client/remove_client', { clientID })
     },
   }
 

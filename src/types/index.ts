@@ -5,6 +5,7 @@ export * from './client'
 export * from './alert'
 export * from './shared'
 export * from './camera'
+export * from './system'
 
 /**
  * Represents a HubClient.
