@@ -1,7 +1,7 @@
 {
   "name": "ultraphx-js-sdk",
   "type": "module",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "packageManager": "pnpm@9.1.0",
   "description": "A client SDK for interacting with the UltraPhoenix API",
   "author": "wearzdk",
