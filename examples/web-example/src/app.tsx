@@ -9,6 +9,7 @@ export function App() {
     <>
       <ConnectedClients />
       <Cameras />
+      <Data />
     </>
   )
 }
@@ -126,6 +127,31 @@ function Cameras() {
               <li key={camera.id}>{camera.name}</li>
             ))}
           </ul>
+          )}
+    </div>
+  )
+}
+
+function Data() {
+  const [data, setData] = useState<string>('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ctx.data.query('{__name__=\'temperature\'}').then((res) => {
+      setData(JSON.stringify(res, null, 2))
+      setLoading(false)
+    })
+  }, [])
+
+  return (
+    <div>
+      <h2>数据</h2>
+      {loading
+        ? (
+          <p>加载中...</p>
+          )
+        : (
+          <pre>{data}</pre>
           )}
     </div>
   )
