@@ -36,7 +36,7 @@ export function dataPlugin(client: BaseClient) {
       return client.http.get<MetricsResult>('/auth/vmdb/api/v1/query', { query: promQL })
     },
     queryRange(params: QueryRangeParams) {
-      return client.http.get<MetricsResult>('/auth/vmdb/api/v1/query_range', { params })
+      return client.http.get<MetricsResult>('/auth/vmdb/api/v1/query_range', params)
     },
   }
 
