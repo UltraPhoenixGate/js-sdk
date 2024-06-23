@@ -7,6 +7,23 @@ export interface DataPayload<T = any> {
 
 export type DataCallback<T = any> = MessageCallback<DataPayload<T>>
 
+export interface QueryRangeParams {
+  promQL: string
+  start: number
+  end: number
+  step: number
+}
+
+export interface MetricsResultItem {
+  metric: Record<string, string>
+  value: (number | string)[]
+}
+
+export interface MetricsResult {
+  resultType: string
+  result: MetricsResultItem[]
+}
+
 export function dataPlugin(client: BaseClient) {
   const data = {
     onData<T>(sender: string, callback: DataCallback<T>) {
@@ -14,6 +31,12 @@ export function dataPlugin(client: BaseClient) {
     },
     sendData<T>(data: T) {
       return client.ws.send<DataPayload<T>>(`data`, { sender: '', data })
+    },
+    query(promQL: string) {
+      return client.http.get<MetricsResult>('/auth/vmdb/api/v1/query', { query: promQL })
+    },
+    queryRange(params: QueryRangeParams) {
+      return client.http.get<MetricsResult>('/auth/vmdb/api/v1/query_range', { params })
     },
   }
 
