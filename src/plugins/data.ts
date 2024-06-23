@@ -8,15 +8,18 @@ export interface DataPayload<T = any> {
 export type DataCallback<T = any> = MessageCallback<DataPayload<T>>
 
 export interface QueryRangeParams {
-  promQL: string
+  query: string
   start: number
   end: number
   step: number
 }
 
 export interface MetricsResultItem {
-  metric: Record<string, string>
-  value: (number | string)[]
+  metric: {
+    __name__: string
+    [key: string]: string
+  }
+  value: [number, string] | [number, string][]
 }
 
 export interface MetricsResult {
