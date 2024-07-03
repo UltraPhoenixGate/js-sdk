@@ -10,6 +10,7 @@ export function App() {
       <ConnectedClients />
       <Cameras />
       <Data />
+      <LocalClient />
     </>
   )
 }
@@ -152,6 +153,31 @@ function Data() {
           )
         : (
           <pre>{data}</pre>
+          )}
+    </div>
+  )
+}
+
+function LocalClient() {
+  const [loading, setLoading] = useState(true)
+  const [exist, setExist] = useState(false)
+
+  useEffect(() => {
+    ctx.client.isLocalClientExist().then((res) => {
+      setExist(res.exist)
+      setLoading(false)
+    })
+  }, [])
+
+  return (
+    <div>
+      <h2>本地客户端</h2>
+      {loading
+        ? (
+          <p>加载中...</p>
+          )
+        : (
+          <p>{exist ? '已存在' : '不存在'}</p>
           )}
     </div>
   )

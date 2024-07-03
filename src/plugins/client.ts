@@ -39,6 +39,30 @@ export function clientPlugin(_client: BaseClient) {
     removeClient(clientID: string) {
       return _client.http.post('/auth/client/remove_client', { clientID })
     },
+    /**
+     * 初始化本地客户端
+     */
+    setupLocalClient(params: {
+      systemPassword: string
+    }) {
+      return _client.http.post<Client>('/auth/client/local_client/setup', params)
+    },
+    /**
+     * 登录本地客户端
+     */
+    loginLocalClient(params: {
+      systemPassword: string
+    }) {
+      return _client.http.post<{
+        token: string
+      }>('/auth/client/local_client/login', params)
+    },
+    /**
+     * 是否存在本地客户端（是否初始化）
+     */
+    isLocalClientExist() {
+      return _client.http.get<{ exist: boolean }>('/auth/client/local_client/exist')
+    },
   }
 
   return { client }
