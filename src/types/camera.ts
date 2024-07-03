@@ -5,7 +5,7 @@ export interface Camera extends BaseModel {
   description: string
   streamUrl: string
   xAddr: string
-  protocol: 'rtsp' | 'http' | string
+  protocol: 'rtsp' | 'http' | (string & NonNullable<unknown>)
   enabled: boolean
   manufacturer: string
   cameraModel: string

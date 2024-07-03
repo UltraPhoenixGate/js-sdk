@@ -1,6 +1,6 @@
 import type { AlertRecord, AlertRule, BaseClient, MessageCallback } from '@/types'
 
-export type AlertLevel = 'info' | 'warning' | 'error' | string
+export type AlertLevel = 'info' | 'warning' | 'error' | (string & NonNullable<unknown>)
 
 export interface AlertPayload {
   level: AlertLevel

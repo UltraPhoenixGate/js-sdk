@@ -19,8 +19,8 @@ export interface MetricsResultItem {
     __name__: string
     [key: string]: string
   }
-  value: [number, string]
-  values: [number, string][]
+  value?: [number, string]
+  values?: [number, string][]
 }
 
 export interface MetricsResult {

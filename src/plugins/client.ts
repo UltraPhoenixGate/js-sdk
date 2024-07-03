@@ -4,7 +4,7 @@ export interface AddActiveSensorParams {
   name: string
   description: string
   collectionInfo: {
-    dataType: 'json' | 'metrics' | string
+    dataType: 'json' | 'metrics' | (string & NonNullable<unknown>)
     collectionPeriod: number
     ipAddress: string
     collectionEndpoint: string

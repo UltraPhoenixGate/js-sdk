@@ -6,7 +6,7 @@ export interface AddCameraParams {
   description: string
   streamUrl: string
   xAddr?: string
-  protocol?: 'rtsp' | 'http' | string
+  protocol?: 'rtsp' | 'http' | (string & NonNullable<unknown>)
   enabled?: boolean
   manufacturer?: string
   cameraModel?: string

@@ -25,7 +25,7 @@ export enum PermissionType {
 
 export interface CollectionInfo {
   clientId: string
-  dataType: 'json' | 'metrics' | string
+  dataType: 'json' | 'metrics' | (string & NonNullable<unknown>)
   collectionPeriod: number
   lastCollectionTime: string
   ipAddress: string
