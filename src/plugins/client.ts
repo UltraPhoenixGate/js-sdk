@@ -45,7 +45,7 @@ export function clientPlugin(_client: BaseClient) {
     setupLocalClient(params: {
       systemPassword: string
     }) {
-      return _client.http.post<Client>('/auth/client/local_client/setup', params)
+      return _client.http.post<Client>('/client/local_client/setup', params)
     },
     /**
      * 登录本地客户端
@@ -55,13 +55,13 @@ export function clientPlugin(_client: BaseClient) {
     }) {
       return _client.http.post<{
         token: string
-      }>('/auth/client/local_client/login', params)
+      }>('/client/local_client/login', params)
     },
     /**
      * 是否存在本地客户端（是否初始化）
      */
     isLocalClientExist() {
-      return _client.http.get<{ exist: boolean }>('/auth/client/local_client/exist')
+      return _client.http.get<{ exist: boolean }>('/client/local_client/exist')
     },
   }
 
