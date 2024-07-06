@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks'
-import type { AddActiveSensorParams, Camera, Client } from 'ultraphx-js-sdk'
+import type { AddActiveSensorParams, Camera, Client, NetworkInfoItem, SystemScreenItem } from 'ultraphx-js-sdk'
 
 import './app.css'
 import { ctx } from './ctx'
@@ -11,6 +11,8 @@ export function App() {
       <Cameras />
       <Data />
       <LocalClient />
+      <Monitor />
+      <Network />
     </>
   )
 }
@@ -178,6 +180,68 @@ function LocalClient() {
           )
         : (
           <p>{exist ? '已存在' : '不存在'}</p>
+          )}
+    </div>
+  )
+}
+
+function Monitor() {
+  const [resolutions, setResolutions] = useState<SystemScreenItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ctx.system.getMonitorResolutions().then((res) => {
+      setResolutions(res)
+      setLoading(false)
+    })
+  }, [])
+
+  return (
+    <div>
+      <h2>显示器配置</h2>
+      {loading
+        ? (
+          <p>加载中...</p>
+          )
+        : (
+          <ul>
+            {resolutions.map(resolution => (
+              <li key={resolution.no}>
+                {resolution.current_resolution.width}
+                x
+                {resolution.current_resolution.height}
+              </li>
+            ))}
+          </ul>
+          )}
+    </div>
+  )
+}
+
+function Network() {
+  const [networks, setNetworks] = useState<NetworkInfoItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ctx.system.getNetworkInfos().then((res) => {
+      setNetworks(res)
+      setLoading(false)
+    })
+  }, [])
+
+  return (
+    <div>
+      <h2>网络</h2>
+      {loading
+        ? (
+          <p>加载中...</p>
+          )
+        : (
+          <ul>
+            {networks.map(network => (
+              <li key={network.ip}>{network.ip}</li>
+            ))}
+          </ul>
           )}
     </div>
   )
