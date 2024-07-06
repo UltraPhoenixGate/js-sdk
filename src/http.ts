@@ -20,6 +20,10 @@ export class HttpService {
     this.token = token
   }
 
+  setBaseUrl(baseUrl: string) {
+    this.baseUrl = baseUrl
+  }
+
   private async request<T>(method: string, path: string, data?: any, opt?: RequestInit): Promise<T> {
     const headers = new Headers({
       Authorization: `Bearer ${this.token}`,

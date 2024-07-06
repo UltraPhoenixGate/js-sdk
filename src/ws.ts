@@ -3,7 +3,7 @@ import type { BaseClientOptions } from './sdk'
 import type { MessageCallback } from './types'
 
 export class WebSocketService {
-  private ws: WebSocket | null = null
+  public ws: WebSocket | null = null
   private baseUrl: string
   private connectHandler: () => void = () => {}
   private disconnectHandler: () => void = () => {}
@@ -20,6 +20,10 @@ export class WebSocketService {
 
   private reconnect() {
     this.debug && console.log('Connecting to WebSocket...', this.baseUrl)
+    if (!this.opt.token) {
+      console.warn('No token provided for WebSocket connection')
+      return
+    }
     this.ws = new WebSocket(`${this.baseUrl}/auth/ws?token=${this.opt.token || ''}`)
 
     this.ws.onopen = () => {
@@ -48,6 +52,11 @@ export class WebSocketService {
       const callbacks = this.topics.get(topic) || []
       callbacks.forEach(callback => callback(payload))
     }
+  }
+
+  setBaseUrl(baseUrl: string) {
+    this.baseUrl = baseUrl.replace(/^http/, 'ws')
+    this.reconnect()
   }
 
   on<T>(topic: string, callback: MessageCallback<T>) {
@@ -79,11 +88,7 @@ export class WebSocketService {
 
   setToken(t: string) {
     this.opt.token = t
-    this.ws = new WebSocket(this.opt.baseUrl, {
-      headers: {
-        Authorization: `Bearer ${this.opt.token || ''}`,
-      },
-    })
+    this.reconnect()
   }
 
   get isReady() {
@@ -118,5 +123,9 @@ export class WebSocketService {
 
   onError(callback: any) {
     this.onConnectError = callback
+  }
+
+  cleanup() {
+    this.ws?.close()
   }
 }

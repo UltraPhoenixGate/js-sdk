@@ -12,6 +12,7 @@ export * from './system'
  */
 export interface BaseClient {
   setToken: (token: string) => void
+  setBaseUrl: (baseUrl: string) => void
   /**
    * The WebSocket instance used by the HubClient.
    */
@@ -23,6 +24,7 @@ export interface BaseClient {
    * @returns A new HubClient instance with the applied plugin.
    */
   use: (plugin: Plugin) => this
+  cleanup: () => void
 }
 
 export interface Message<T = any> {

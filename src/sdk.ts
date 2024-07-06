@@ -22,10 +22,18 @@ export function createBaseSdkClient(opt: BaseClientOptions): BaseClient {
       ws.setToken(t)
       http.setToken(t)
     },
+    setBaseUrl(baseUrl) {
+      ws.setBaseUrl(baseUrl)
+      http.setBaseUrl(baseUrl)
+    },
     ws,
     http,
     use(plugin: Plugin) {
       return Object.assign(this, plugin(this))
+    },
+    cleanup() {
+      ws.cleanup()
+      this.setToken('')
     },
   }
 
