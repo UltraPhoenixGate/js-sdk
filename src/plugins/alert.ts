@@ -18,7 +18,7 @@ export function alertPlugin(client: BaseClient) {
       return client.ws.send<AlertPayload>(`alert::${level}`, { level, text })
     },
     getAlertRules() {
-      return client.http.get<AlertRule[]>('/auth/alert/rules')
+      return client.http.get<{ rules: AlertRule[] }>('/auth/alert/rules')
     },
     getAlertRecords(params: {
       clientID?: string

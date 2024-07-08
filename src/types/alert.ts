@@ -32,7 +32,7 @@ export interface AlertRule {
 
 // AlertRuleCondition interface
 export interface AlertRuleCondition {
-  sensorID: string
+  sensorId: string
   metric: string
   type: AlertRuleConditionType
   payload: AlertRuleConditionPayloadOperator | AlertRuleConditionPayloadEvent
