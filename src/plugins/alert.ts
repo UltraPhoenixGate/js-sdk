@@ -28,13 +28,13 @@ export function alertPlugin(client: BaseClient) {
       return client.http.get<AlertRecord[]>('/auth/alert/records', params)
     },
     createAlertRule(rule: AlertRule) {
-      return client.http.post<AlertRule>('/auth/alert/rules', rule)
+      return client.http.post<{ rule: AlertRule }>('/auth/alert/rule', rule)
     },
     updateAlertRule(rule: AlertRule) {
-      return client.http.put<AlertRule>(`/auth/alert/rules/${rule.name}`, rule)
+      return client.http.put<{ rule: AlertRule }>(`/auth/alert/rule`, rule)
     },
     deleteAlertRule(name: string) {
-      return client.http.delete(`/auth/alert/rules/${name}`)
+      return client.http.delete(`/auth/alert/rule`, { name })
     },
   }
 
