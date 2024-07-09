@@ -74,7 +74,7 @@ export function cameraPlugin(client: BaseClient) {
      * @param params
      */
     async getOnvifDeviceInfo(params: GetOnvifDeviceInfoParams) {
-      const res = await client.http.get<{
+      const res = await client.http.post<{
         info: {
           Manufacturer: string
           Model: string
