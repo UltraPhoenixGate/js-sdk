@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks'
-import type { AddActiveSensorParams, Camera, Client, NetworkInfoItem, SystemScreenItem } from 'ultraphx-js-sdk'
+import type { AddActiveSensorParams, Camera, Client, NetworkInfoItem, ScannedSensorMeta, SystemScreenItem } from 'ultraphx-js-sdk'
 
 import './app.css'
 import { ctx } from './ctx'
@@ -13,6 +13,7 @@ export function App() {
       <LocalClient />
       <Monitor />
       <Network />
+      <ScanSensors />
     </>
   )
 }
@@ -240,6 +241,35 @@ function Network() {
           <ul>
             {networks.map(network => (
               <li key={network.ip}>{network.ip}</li>
+            ))}
+          </ul>
+          )}
+    </div>
+  )
+}
+
+function ScanSensors() {
+  const [sensorMeta, setSensorMeta] = useState<ScannedSensorMeta[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ctx.client.scanActiveSensors().then((res) => {
+      setSensorMeta(res)
+      setLoading(false)
+    })
+  }, [])
+
+  return (
+    <div>
+      <h2>扫描传感器</h2>
+      {loading
+        ? (
+          <p>加载中...</p>
+          )
+        : (
+          <ul>
+            {sensorMeta.map(sensor => (
+              <li key={sensor.ip}>{sensor.name}</li>
             ))}
           </ul>
           )}

@@ -33,3 +33,18 @@ export interface CollectionInfo {
   authToken?: string
   customLabels?: string
 }
+
+export interface EndpointsItem {
+  path: string
+  description: string
+  method: string
+  type: string
+}
+
+export interface ScannedSensorMeta {
+  ip: string
+  name: string
+  description: string
+  version: number
+  endpoints: EndpointsItem[]
+}

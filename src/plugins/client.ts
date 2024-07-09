@@ -1,4 +1,4 @@
-import type { BaseClient, Client, ClientStatus } from '@/types'
+import type { BaseClient, Client, ClientStatus, ScannedSensorMeta } from '@/types'
 
 export interface AddActiveSensorParams {
   name: string
@@ -62,6 +62,12 @@ export function clientPlugin(_client: BaseClient) {
      */
     isLocalClientExist() {
       return _client.http.get<{ exist: boolean }>('/client/local_client/exist')
+    },
+    /**
+     * 扫描主动传感器
+     */
+    scanActiveSensors() {
+      return _client.http.post<ScannedSensorMeta[]>('/auth/client/scan_active_sensor', {})
     },
   }
 
